@@ -3,7 +3,7 @@ toolname=irontemplate
 
 echo "Toolname =" $toolname
 
-cn="irontemplate.trust.f4.hs-hannover.de"
+cn="$toolname.trust.f4.hs-hannover.de"
 ou="Trust@HsH"
 o="Hochschule Hannover"
 l="Hannover"
@@ -24,8 +24,8 @@ keytool -genkey -dname "$dname" -keyalg RSA -alias $toolname -keystore $toolname
 echo "Exporting certificate: keytool -keystore $toolname.jks -storepass $toolname -exportcert -alias $toolname -file $toolname.pem -rfc"
 keytool -keystore $toolname.jks -storepass $toolname -exportcert -alias $toolname -file $toolname.pem -rfc
 
-echo "Importing irond certificate into $toolname keystore: keytool -importcert -file irond.pem -keystore $toolname.jks -alias irond"
+# echo "Importing irond certificate into $toolname keystore: keytool -importcert -file irond.pem -keystore $toolname.jks -alias irond"
 # keytool -importcert -file irond.pem -keystore $toolname.jks -alias irond
 
-echo "Importing $toolname certificate into irond-keystore: keytool -importcert -file $toolname.pem -keystore irond.jks -alias $toolname"
+# echo "Importing $toolname certificate into irond-keystore: keytool -importcert -file $toolname.pem -keystore irond.jks -alias $toolname"
 # keytool -importcert -file $toolname.pem -keystore irond.jks -alias $toolname

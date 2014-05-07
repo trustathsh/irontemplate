@@ -81,9 +81,11 @@ public class Client {
 		String trustStorePath = "/keystore/irontemplate.jks";
 		String trustStorePassword = "irontemplate";
 		boolean threadSafe = true;
+		int initialConnectionTimeout = 120 * 1000;
 
 		BasicAuthConfig config = new BasicAuthConfig(url, username, password,
-				trustStorePath, trustStorePassword, threadSafe);
+				trustStorePath, trustStorePassword, threadSafe,
+				initialConnectionTimeout);
 
 		try {
 			LOGGER.info("Creating SSRC");
@@ -95,19 +97,22 @@ public class Client {
 
 			VendorSpecificMetadataFactory factory = IfmapJ
 					.createVendorSpecificMetadataFactory();
-			String vendorSpecificMetadataXml = "<custom:part-of ifmap-cardinality=\"singleValue\" "
-					+ "xmlns:custom=\"http://www.example.com/vendor-metadata\"> "
-					+ "</custom:part-of>";
+			String vendorSpecificMetadataXml =
+					"<custom:part-of "
+							+ "ifmap-cardinality=\"singleValue\" "
+							+ "xmlns:custom=\"http://www.example.com/vendor-metadata\"> "
+							+ "</custom:part-of>";
 			Document outgoingMetadata = factory
 					.createMetadata(vendorSpecificMetadataXml);
 
-			String extendedIdentifierXml = "<ns:network "
-					+ "administrative-domain=\"\" "
-					+ "address=\"192.168.1.1\" "
-					+ "type=\"IPv4\" "
-					+ "netmask=\"255.255.255.0\" "
-					+ "xmlns:ns=\"http://www.example.com/extended-identifiers\" "
-					+ "/>";
+			String extendedIdentifierXml =
+					"<ns:network "
+							+ "administrative-domain=\"\" "
+							+ "address=\"192.168.1.1\" "
+							+ "type=\"IPv4\" "
+							+ "netmask=\"255.255.255.0\" "
+							+ "xmlns:ns=\"http://www.example.com/extended-identifiers\" "
+							+ "/>";
 			Identifier identifier = Identifiers
 					.createExtendedIdentity(extendedIdentifierXml);
 
@@ -151,6 +156,9 @@ public class Client {
 					LOGGER.info("Cardinality:       " + cardinality);
 					LOGGER.info("Local name:        " + localname);
 					LOGGER.info("Typename:          " + typename);
+
+					LOGGER.info("Formatted XML:     "
+							+ incomingMetadata.toFormattedString());
 				}
 			}
 

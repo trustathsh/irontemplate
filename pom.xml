@@ -10,7 +10,7 @@
 	<!-- general project information -->
 	<groupId>de.hshannover.f4.trust</groupId>
 	<artifactId>irontemplate</artifactId>
-	<version>0.0.2</version>
+	<version>0.0.3</version>
 	<packaging>jar</packaging>
 	<name>irontemplate</name>
 	<url>http://trust.f4.hs-hannover.de</url>
@@ -64,8 +64,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.7</source>
+					<target>1.7</target>
 				</configuration>
 			</plugin>
 
@@ -134,7 +134,7 @@
 		<dependency>
 			<groupId>de.hshannover.f4.trust</groupId>
 			<artifactId>ifmapj</artifactId>
-			<version>2.0.0</version>
+			<version>2.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>

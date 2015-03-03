@@ -1,0 +1,20 @@
+# irontemplate configuration file
+irontemplate:
+  # IF-MAP connection settings
+  ifmap:
+    # URL of the MAP server
+    url: http://localhost:8443
+    # username for basic authentication
+    username: test
+    # password for basic authentication
+    password: test
+    # Truststore configuration
+    truststore:
+      # path and filename of the keystore
+      path: /keystore/irontemplate.jks
+      # password of the keystore
+      password: irontemplate
+    # connection uses a thread-safe SSRC
+    threadsafe: true
+    # initial connection timeout
+    initialconnectiontimeout: 120000

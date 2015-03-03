@@ -7,17 +7,17 @@
  *    | | | |  | |_| \__ \ |_| | (_| |  _  |\__ \|  _  |
  *    |_| |_|   \__,_|___/\__|\ \__,_|_| |_||___/|_| |_|
  *                             \____/
- * 
+ *
  * =====================================================
- * 
+ *
  * Hochschule Hannover
  * (University of Applied Sciences and Arts, Hannover)
  * Faculty IV, Dept. of Computer Science
  * Ricklinger Stadtweg 118, 30459 Hannover, Germany
- * 
+ *
  * Email: trust@f4-i.fh-hannover.de
  * Website: http://trust.f4.hs-hannover.de/
- * 
+ *
  * This file is part of irontemplate, version 0.0.2,
  * implemented by the Trust@HsH research group at the Hochschule Hannover.
  * %%
@@ -26,9 +26,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -59,6 +59,7 @@ import de.hshannover.f4.trust.ifmapj.messages.SearchRequest;
 import de.hshannover.f4.trust.ifmapj.messages.SearchResult;
 import de.hshannover.f4.trust.ifmapj.metadata.Metadata;
 import de.hshannover.f4.trust.ifmapj.metadata.VendorSpecificMetadataFactory;
+import de.hshannover.f4.trust.ironcommon.properties.Properties;
 
 /**
  * Example class that demonstrates basic ifmapj-features: 1:) connect to a MAP
@@ -70,18 +71,41 @@ public class Client {
 
 	private static final String VERSION = "${project.version}";
 
+	private static final String FILENAME = "config/configuration.yml";
+
 	private static Logger LOGGER = Logger.getLogger(Client.class);
 
 	public static void main(String[] args) {
 		LOGGER.info("Starting irontemplate version " + VERSION);
 
-		String url = "http://localhost:8443";
-		String username = "test";
-		String password = "test";
-		String trustStorePath = "/keystore/irontemplate.jks";
-		String trustStorePassword = "irontemplate";
-		boolean threadSafe = true;
-		int initialConnectionTimeout = 120 * 1000;
+		LOGGER.info("Loading configuration file: " + FILENAME);
+		Properties configuration = new Properties(FILENAME);
+
+		String url = configuration.getString("irontemplate.ifmap.url",
+				"http://localhost:8443");
+		String username = configuration.getString(
+				"irontemplate.ifmap.username", "test");
+		String password = configuration.getString(
+				"irontemplate.ifmap.password", "test");
+		String trustStorePath = configuration.getString(
+				"irontemplate.ifmap.truststore.path",
+				"/keystore/irontemplate.jks");
+		String trustStorePassword = configuration.getString(
+				"irontemplate.ifmap.truststore.password", "irontemplate");
+		boolean threadSafe = configuration.getBoolean(
+				"irontemplate.ifmap.threadsafe", true);
+		int initialConnectionTimeout = configuration.getInt(
+				"irontemplate.ifmap.initialconnectiontimeout", (120 * 1000));
+
+		LOGGER.info("irontemplate.ifmap.url: " + url);
+		LOGGER.info("irontemplate.ifmap.username: " + username);
+		LOGGER.info("irontemplate.ifmap.password: " + password);
+		LOGGER.info("irontemplate.ifmap.truststore.path: " + trustStorePath);
+		LOGGER.info("irontemplate.ifmap.truststore.password: "
+				+ trustStorePassword);
+		LOGGER.info("irontemplate.ifmap.threadsafe: " + threadSafe);
+		LOGGER.info("irontemplate.ifmap.initialconnectiontimeout: "
+				+ initialConnectionTimeout);
 
 		BasicAuthConfig config = new BasicAuthConfig(url, username, password,
 				trustStorePath, trustStorePassword, threadSafe,
@@ -97,22 +121,20 @@ public class Client {
 
 			VendorSpecificMetadataFactory factory = IfmapJ
 					.createVendorSpecificMetadataFactory();
-			String vendorSpecificMetadataXml =
-					"<custom:part-of "
-							+ "ifmap-cardinality=\"singleValue\" "
-							+ "xmlns:custom=\"http://www.example.com/vendor-metadata\"> "
-							+ "</custom:part-of>";
+			String vendorSpecificMetadataXml = "<custom:part-of "
+					+ "ifmap-cardinality=\"singleValue\" "
+					+ "xmlns:custom=\"http://www.example.com/vendor-metadata\"> "
+					+ "</custom:part-of>";
 			Document outgoingMetadata = factory
 					.createMetadata(vendorSpecificMetadataXml);
 
-			String extendedIdentifierXml =
-					"<ns:network "
-							+ "administrative-domain=\"\" "
-							+ "address=\"192.168.1.1\" "
-							+ "type=\"IPv4\" "
-							+ "netmask=\"255.255.255.0\" "
-							+ "xmlns:ns=\"http://www.example.com/extended-identifiers\" "
-							+ "/>";
+			String extendedIdentifierXml = "<ns:network "
+					+ "administrative-domain=\"\" "
+					+ "address=\"192.168.1.1\" "
+					+ "type=\"IPv4\" "
+					+ "netmask=\"255.255.255.0\" "
+					+ "xmlns:ns=\"http://www.example.com/extended-identifiers\" "
+					+ "/>";
 			Identifier identifier = Identifiers
 					.createExtendedIdentity(extendedIdentifierXml);
 

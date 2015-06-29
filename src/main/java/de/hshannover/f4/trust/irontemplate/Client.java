@@ -18,7 +18,7 @@
  * Email: trust@f4-i.fh-hannover.de
  * Website: http://trust.f4.hs-hannover.de/
  * 
- * This file is part of irontemplate, version 0.0.4,
+ * This file is part of irontemplate, version 0.0.5,
  * implemented by the Trust@HsH research group at the Hochschule Hannover.
  * %%
  * Copyright (C) 2014 - 2015 Trust@HsH
@@ -67,14 +67,28 @@ import de.hshannover.f4.trust.ironcommon.properties.Properties;
  * 4.) publish these to an MAPS 5.) search for these on the MAPS 6.) print the
  * information of the metadata 7.) close the connection
  */
-public class Client {
+public final class Client {
 
 	private static final String VERSION = "${project.version}";
 
 	private static final String FILENAME = "config/configuration.yml";
 
-	private static Logger LOGGER = Logger.getLogger(Client.class);
+	private static final Logger LOGGER = Logger.getLogger(Client.class);
 
+	/**
+	 * Empty private constructor since everything is static in this class
+	 */
+	private Client() {
+	}
+
+	/**
+	 * An exemplary IF-MAP client.
+	 * Uses YAML-configuration file, creates a new MAP server connection, 
+	 * publishes some vendor-specific metadata and extended identifiers,
+	 * then searches for this data on the MAPS and prints the data.
+	 * 
+	 * @param args command line arguments (not used)
+	 */
 	public static void main(String[] args) {
 		LOGGER.info("Starting irontemplate version " + VERSION);
 

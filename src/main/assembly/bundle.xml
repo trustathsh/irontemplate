@@ -9,6 +9,18 @@
 
 	<files>
 		<file>
+			<source>${basedir}/src/main/templates/start.sh</source>
+			<outputDirectory></outputDirectory>
+			<fileMode>755</fileMode>
+			<filtered>true</filtered>
+		</file>
+		<file>
+			<source>${basedir}/src/main/templates/start.bat</source>
+			<outputDirectory></outputDirectory>
+			<fileMode>755</fileMode>
+			<filtered>true</filtered>
+		</file>
+		<file>
 			<source>${project.build.directory}/${artifactId}-${version}-bin.jar</source>
 			<outputDirectory></outputDirectory>
 			<destName>${artifactId}.jar</destName>
@@ -17,6 +29,20 @@
 	</files>
 
 	<fileSets>
+		<fileSet>
+			<directory>${basedir}/src/main/templates</directory>
+			<outputDirectory></outputDirectory>
+			<excludes>
+				<exclude>start.sh</exclude>
+			</excludes>
+		</fileSet>
+		<fileSet>
+			<directory>${basedir}/src/main/templates</directory>
+			<outputDirectory></outputDirectory>
+			<excludes>
+				<exclude>start.bat</exclude>
+			</excludes>
+		</fileSet>
 		<fileSet>
 			<directory>${basedir}/src/main/templates</directory>
 			<outputDirectory></outputDirectory>
